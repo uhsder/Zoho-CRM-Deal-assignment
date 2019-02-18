@@ -73,22 +73,37 @@ accountsToSkip = []
 
 # Main loop
 for p in range(1, 100):
-    dealRequest = dealpagerequest(p, newToken)
+        try:
+        dealRequest = dealpagerequest(p, newToken)
+    except KeyError:
+        newToken = authenticationrequest()
+        dealRequest = dealpagerequest(p, newToken)
     # Processing portion of 200 deals one by one
     for deal in range(0, len(dealRequest['data'])):
         # Handling for deals w/o account assigned
         try:
             c += 1
-            accountId, dealOwner, dealId, accountRequest = accountsrequest(c, newToken, deal, dealRequest)
+                        try:
+                accountId, dealOwner, dealId, accountRequest = accountsrequest(c, newToken, deal, dealRequest)
+            except KeyError:
+                newToken = authenticationrequest()
+                accountId, dealOwner, dealId, accountRequest = accountsrequest(c, newToken, deal, dealRequest)
             # This loop could be excessive but don't want to debug this actually
             for account in range(0, len(accountRequest['data'])):
-                updateRequest, dataToSend, accountOwner = accountassignment(dealId, accountRequest, account, newToken, accountsToSkip)
+                try:
+                    updateRequest, dataToSend, accountOwner = accountassignment(dealId, accountRequest, account, newToken, accountsToSkip)
+                except KeyError:
+                    newToken = authenticationrequest()
+                    updateRequest, dataToSend, accountOwner = accountassignment(dealId, accountRequest, account, newToken, accountsToSkip)
             # Skipping deals which are assigned to someone from the list
             try:
                 print ("Request: " + str(dataToSend) + '\n' + updateRequest.text + '\n' + str(updateRequest.status_code))
+            except KeyError:
+                newToken = authenticationrequest()
+                print ("Request: " + str(dataToSend) + '\n' + updateRequest.text + '\n' + str(
+                    updateRequest.status_code))
             except:
                 print ('Account owner is from to-skip-list')
-                # print (dealId + '\n' + str(accountOwner))
                 print (dealId + '\n')
         except Exception as e:
             print (e)
