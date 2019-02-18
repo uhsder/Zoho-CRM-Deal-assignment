@@ -103,8 +103,7 @@ for p in range(1, 100):
                 print ("Request: " + str(dataToSend) + '\n' + updateRequest.text + '\n' + str(
                     updateRequest.status_code))
             except:
-                print ('Account owner is from to-skip-list')
-                print (dealId + '\n')
+                print ('Account owner is from to-skip-list' + '\n' + str(dealId) + '\n')
         except Exception as e:
             print (e)
             print ('This deal is weird:' + str(dealRequest['data'][deal]['id']))
