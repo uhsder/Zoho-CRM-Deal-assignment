@@ -3,7 +3,7 @@ import requests
 import boto3
 import json
 
-# Parameters to change: *BUCKET_NAME*, *FILE_NAME*, *YOUR_REFRESH_TOKEN*
+# Parameters to change: *BUCKET_NAME*, *FILE_NAME*, *YOUR_REFRESH_TOKEN*, *REQUEST_DEALS*
 
 def authenticationrequest():
     # Getting previous token from S3 bucket and sending test request just to get status code 200 or 401
