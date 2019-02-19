@@ -73,7 +73,7 @@ accountsToSkip = []
 
 # Main loop
 for p in range(1, 100):
-        try:
+    try:
         dealRequest = dealpagerequest(p, newToken)
     except KeyError:
         newToken = authenticationrequest()
@@ -83,7 +83,7 @@ for p in range(1, 100):
         # Handling for deals w/o account assigned
         try:
             c += 1
-                        try:
+            try:
                 accountId, dealOwner, dealId, accountRequest = accountsrequest(c, newToken, deal, dealRequest)
             except KeyError:
                 newToken = authenticationrequest()
